@@ -100,6 +100,17 @@ namespace IyzicoTrial.Controllers
             return View();
         }
 
+        public IActionResult RetriveInstallment()
+        {
+            RetrieveInstallmentInfoRequest request = new RetrieveInstallmentInfoRequest();
+            request.Locale = Locale.TR.ToString();
+            request.ConversationId = "123456789";
+            request.BinNumber = "540668";
+            request.Price = "100";
+            InstallmentInfo installmentInfo = InstallmentInfo.Retrieve(request, Options);
+            return Json(new object { });
+        }
+
        
     }
 
