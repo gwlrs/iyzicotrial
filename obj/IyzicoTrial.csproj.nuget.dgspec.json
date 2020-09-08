@@ -1,23 +1,23 @@
 {
   "format": 1,
   "restore": {
-    "D:\\Calismalarim\\OdemeSistemleri\\IyzicoTrial\\IyzicoTrial.csproj": {}
+    "D:\\mehmet\\Odeme\\iyzicotrial\\IyzicoTrial.csproj": {}
   },
   "projects": {
-    "D:\\Calismalarim\\OdemeSistemleri\\IyzicoTrial\\IyzicoTrial.csproj": {
+    "D:\\mehmet\\Odeme\\iyzicotrial\\IyzicoTrial.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\Calismalarim\\OdemeSistemleri\\IyzicoTrial\\IyzicoTrial.csproj",
+        "projectUniqueName": "D:\\mehmet\\Odeme\\iyzicotrial\\IyzicoTrial.csproj",
         "projectName": "IyzicoTrial",
-        "projectPath": "D:\\Calismalarim\\OdemeSistemleri\\IyzicoTrial\\IyzicoTrial.csproj",
-        "packagesPath": "C:\\Users\\malis\\.nuget\\packages\\",
-        "outputPath": "D:\\Calismalarim\\OdemeSistemleri\\IyzicoTrial\\obj\\",
+        "projectPath": "D:\\mehmet\\Odeme\\iyzicotrial\\IyzicoTrial.csproj",
+        "packagesPath": "C:\\Users\\MUHAMMET\\.nuget\\packages\\",
+        "outputPath": "D:\\mehmet\\Odeme\\iyzicotrial\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Microsoft\\Xamarin\\NuGet\\"
         ],
         "configFilePaths": [
-          "C:\\Users\\malis\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\MUHAMMET\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Xamarin.Offline.config"
         ],
@@ -49,6 +49,10 @@
             "Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation": {
               "target": "Package",
               "version": "[3.1.6, )"
+            },
+            "Microsoft.VisualStudio.Web.CodeGeneration.Design": {
+              "target": "Package",
+              "version": "[3.1.4, )"
             }
           },
           "imports": [
@@ -69,7 +73,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.302\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.401\\RuntimeIdentifierGraph.json"
         }
       }
     }

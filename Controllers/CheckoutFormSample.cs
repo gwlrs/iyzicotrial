@@ -1,13 +1,20 @@
 ﻿using Iyzipay.Model;
 using Iyzipay.Request;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ViewFeatures;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
+using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 
 namespace Iyzipay.Samples
 {
     public class CheckoutFormSample : Controller
     {
         public Options options;
+        public string _token;
+
         public CheckoutFormSample()
         {
             options = new Options
@@ -17,6 +24,7 @@ namespace Iyzipay.Samples
                 BaseUrl = "https://sandbox-api.iyzipay.com"
             };
         }
+
         public IActionResult Should_Initialize_Checkout_Form()
         {
             CreateCheckoutFormInitializeRequest request = new CreateCheckoutFormInitializeRequest();
@@ -27,7 +35,7 @@ namespace Iyzipay.Samples
             request.Currency = Currency.TRY.ToString();
             request.BasketId = "B67832";
             request.PaymentGroup = PaymentGroup.PRODUCT.ToString();
-            request.CallbackUrl = "https://www.merchant.com/callback";
+            request.CallbackUrl = "https://localhost:44320/CheckoutFormSample/Should_Retrieve_Checkout_Form_Result";
 
             List<int> enabledInstallments = new List<int>();
             enabledInstallments.Add(2);
@@ -98,17 +106,73 @@ namespace Iyzipay.Samples
             request.BasketItems = basketItems;
 
             CheckoutFormInitialize checkoutFormInitialize = CheckoutFormInitialize.Create(request, options);
+            _token = checkoutFormInitialize.Token;
+            ViewBag.Content = checkoutFormInitialize.CheckoutFormContent;
 
-            return Redirect(checkoutFormInitialize.PaymentPageUrl);
+            return View();
         }
 
-        public void Should_Retrieve_Checkout_Form_Result()
+        public IActionResult Should_Retrieve_Checkout_Form_Result(string token)
         {
+
             RetrieveCheckoutFormRequest request = new RetrieveCheckoutFormRequest();
             request.ConversationId = "123456789";
-            request.Token = "token";
+            request.Token = token;
 
             CheckoutForm checkoutForm = CheckoutForm.Retrieve(request, options);
+
+            PrintResponse<CheckoutForm>(checkoutForm);
+
+            if (checkoutForm.Status.ToLower() == "success")
+            {
+
+                // return Redirect(Uri.EscapeUriString("https://localhost:44320/CheckoutFormSample/OdemeSonucu?message=Ödeme işleminiz başarılı bir şekilde tamamlandı?orderNumber=Siparişiniz Numarınız : 12134352"));
+                return RedirectToAction("OdemeSonucu", new { message = "Odeme işleminiz başarılı bir şekilde tamamlandı", orderNumber = "Siparişiniz Numarınız : 12134352" });
+            }
+            else
+            {
+                return RedirectToAction("OdemeSonucu", new { message = "Odeme işlemin Başarısız  !!!!!!!!!" });
+            }
+
+        }
+
+        //public void Should_Retrieve_Checkout_Form_Result(string token)
+        //{
+        //    RetrieveCheckoutFormRequest request = new RetrieveCheckoutFormRequest();
+        //    request.ConversationId = "123456789";
+        //    request.Token = token;
+
+        //    CheckoutForm checkoutForm = CheckoutForm.Retrieve(request, options);
+
+
+        //    PrintResponse<CheckoutForm>(checkoutForm);
+        //}
+
+        public IActionResult OdemeSonucu(string message, string orderNumber)
+        {
+            ViewBag.MessageInfo = message;
+            ViewBag.OrderNumber = orderNumber;
+            return View();
+        }
+
+
+
+
+        protected void PrintResponse<T>(T resource)
+        {
+#if NETCORE1 || NETCORE2
+            TraceListener consoleListener = new TextWriterTraceListener(System.Console.Out);
+#else
+            TraceListener consoleListener = new ConsoleTraceListener();
+#endif
+
+            Trace.Listeners.Add(consoleListener);
+            Trace.WriteLine(JsonConvert.SerializeObject(resource, new JsonSerializerSettings()
+            {
+                Formatting = Formatting.Indented,
+                ContractResolver = new CamelCasePropertyNamesContractResolver()
+            }));
         }
     }
+
 }
